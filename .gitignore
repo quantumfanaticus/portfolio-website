@@ -39,6 +39,5 @@ next-env.d.ts
 .idea/
 
 # Large media files
-public/video.mp4
 public/pic.png
 public/IMG_7287.jpg

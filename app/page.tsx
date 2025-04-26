@@ -96,12 +96,16 @@ export default function Home() {
                       loop
                       muted
                       playsInline
+                      preload="auto"
                       className="h-[300px] sm:h-[400px] w-full sm:w-[600px] object-contain"
                       style={{
                         height: 'var(--image-height, 600px)',
                         width: 'var(--image-width, 800px)'
                       }}
-                    />
+                    >
+                      <source src="/video.mp4" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
                   </motion.div>
                 </div>
               </div>

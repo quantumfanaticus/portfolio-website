@@ -13,6 +13,17 @@ const nextConfig = {
   images: {
     unoptimized: true, // Required for static exports
   },
+  // Ensure video files are copied to the output directory
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.(mp4|webm)$/i,
+      type: 'asset/resource',
+      generator: {
+        filename: 'static/media/[name][ext]',
+      },
+    });
+    return config;
+  },
 }
 
 module.exports = nextConfig 

@@ -11,19 +11,18 @@ import Navigation from './components/Navigation';
 export default function Home() {
   const [showIntro, setShowIntro] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [videoError, setVideoError] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     try {
-      // Check if sessionStorage is available
       if (typeof window !== 'undefined' && window.sessionStorage) {
         const hasSeenAnimation = sessionStorage.getItem('hasSeenAnimation');
         if (!hasSeenAnimation) {
           setShowIntro(true);
-          // Only set the flag after the animation completes
           const timer = setTimeout(() => {
             sessionStorage.setItem('hasSeenAnimation', 'true');
-          }, 3000); // Match this with your animation duration
+          }, 3000);
           return () => clearTimeout(timer);
         }
       }
@@ -32,10 +31,16 @@ export default function Home() {
     }
   }, []);
 
-  // Don't render anything until after hydration
-  if (!mounted) {
-    return null;
-  }
+  useEffect(() => {
+    // Try to preload the video
+    const video = new Audio('/video.mp4');
+    video.addEventListener('error', () => {
+      console.error('Video failed to load');
+      setVideoError(true);
+    });
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <main className="min-h-screen bg-gray-300 text-black">
@@ -91,7 +96,7 @@ export default function Home() {
                     className="relative h-full flex items-center justify-end pr-4"
                   >
                     <video
-                      src="/video.mp4"
+                      src="/videos/video.mp4"
                       autoPlay
                       loop
                       muted
@@ -103,7 +108,7 @@ export default function Home() {
                         width: 'var(--image-width, 800px)'
                       }}
                     >
-                      <source src="/video.mp4" type="video/mp4" />
+                      <source src="/videos/video.mp4" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
                   </motion.div>

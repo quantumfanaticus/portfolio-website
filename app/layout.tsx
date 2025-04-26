@@ -1,26 +1,26 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import './globals.css';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Karthik Miryala',
-  description: 'Personal portfolio website',
-}
+  description: 'Portfolio website of Karthik Miryala - Quantum Technologies Researcher and Educator',
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <main className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
-          {children}
-        </main>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <body>
+        {children}
       </body>
     </html>
-  )
+  );
 } 

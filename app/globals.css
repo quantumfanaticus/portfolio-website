@@ -28,3 +28,7 @@ a {
 a:hover {
   color: #6B7280;
 }
+
+.page-content.mobile-menu-open {
+  padding-top: 16rem !important;
+}

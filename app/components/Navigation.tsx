@@ -1,14 +1,59 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 export default function Navigation() {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > scrollY && currentScrollY > 80) {
+        setIsNavVisible(false); // Hide nav when scrolling down and past threshold
+      } else {
+        setIsNavVisible(true); // Show nav when scrolling up
+      }
+      
+      setScrollY(currentScrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [scrollY]);
+
+  useEffect(() => {
+    // Find all sections with page-content class and update them
+    const pageSections = document.querySelectorAll('.page-content');
+    
+    if (isMobileMenuOpen) {
+      pageSections.forEach(section => {
+        section.classList.add('mobile-menu-open');
+      });
+    } else {
+      pageSections.forEach(section => {
+        section.classList.remove('mobile-menu-open');
+      });
+    }
+    
+    return () => {
+      pageSections.forEach(section => {
+        section.classList.remove('mobile-menu-open');
+      });
+    };
+  }, [isMobileMenuOpen]);
 
   return (
-    <nav className="fixed top-0 w-full bg-white/50 backdrop-blur-sm z-[100]">
+    <motion.nav 
+    className="fixed top-0 w-full bg-white/50 backdrop-blur-sm shadow-sm z-[100]"
+    initial={{ translateY: 0 }}
+    animate={{ translateY: isNavVisible ? 0 : -100 }}
+    transition={{ duration: 0.3 }}
+  >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -92,11 +137,11 @@ export default function Navigation() {
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden"
+              className="fixed top-16 left-0 w-full shadow-lg md:hidden z-20"
             >
               <div className="px-2 pt-2 pb-3 space-y-1">
                 <Link
@@ -132,6 +177,6 @@ export default function Navigation() {
           )}
         </AnimatePresence>
       </div>
-    </nav>
+  </motion.nav>
   );
 } 

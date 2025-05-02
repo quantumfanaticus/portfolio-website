@@ -17,7 +17,7 @@ export default function Teaching() {
       <div className="h-16"></div> {/* Spacer div matching navigation height */}
       
       {/* Teaching Content */}
-      <section className="pt-4 pb-8 px-4 sm:px-6 lg:px-8">
+      <section className="page-content pt-4 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

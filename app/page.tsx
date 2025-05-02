@@ -52,7 +52,7 @@ export default function Home() {
             <Navigation />
             
             {/* Hero and About Section Combined */}
-            <section className="min-h-screen pt-36 px-4 sm:px-6 lg:px-8">
+            <section className="page-content min-h-screen pt-36 px-4 sm:px-6 lg:px-8">
               <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center min-h-[calc(100vh-4rem)]">
                   {/* Left Column - Content */}
